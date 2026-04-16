@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; }
+    .fade-in { animation: fadeIn 0.4s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <a href="index.html" class="text-blue-500 font-semibold">⬅ Back</a>
+
+  <h1 id="title" class="text-2xl font-bold mb-4 mt-4"></h1>
+
+  <select id="districtSelect" class="border p-2 rounded mt-3 hidden w-full max-w-xs">
+    <option value="">-- জেলা বেছে নিন --</option>
+    <option value="dhaka">Dhaka</option>
+    <option value="chittagong">Chittagong</option>
+    <option value="sylhet">Sylhet</option>
+    <option value="rajshahi">Rajshahi</option>
+    <option value="khulna">Khulna</option>
+    <option value="barishal">Barishal</option>
+  </select>
+
+  <div id="detailsBox" class="bg-white p-5 rounded shadow mt-4">
+    <div class="mt-6 text-left">
+  <h3 class="font-bold text-lg mb-2">📞 Recent Calls</h3>
+  <div id="service-history" class="mt-2"></div>
+</div>
+    <img id="service-img" class="w-full h-48 object-cover rounded mb-4">
+    <div id="service-content"></div>
+  </div>
+
+<script>
+function renderHistory(){
+  const list = document.getElementById("history-list");
+  if(!list) return;
+
+  let history = JSON.parse(localStorage.getItem("callHistory")) || [];
+
+  // শুধু last 5টা দেখাবে
+  history = history.slice(-5).reverse();
+
+  if(history.length === 0){
+    list.innerHTML = "<p class='text-gray-500'>No recent calls</p>";
+    return;
+  }
+
+  list.innerHTML = history.map(item => `
+    <li class="flex justify-between items-center bg-gray-100 p-2 rounded">
+      <div>
+        <p class="font-semibold">${item.name}</p>
+        <p class="text-sm text-gray-500">${item.number}</p>
+      </div>
+
+      <button onclick="callNow('${item.number}')"
+        class="bg-green-500 text-white px-2 py-1 rounded text-sm">
+        Call
+      </button>
+    </li>
+  `).join("");
+}
+
+renderHistory();
+function callNow(num){
+
+  let history = JSON.parse(localStorage.getItem("callHistory")) || [];
+
+  history.push({
+    id: Date.now(),
+    name: document.getElementById("title").innerText,
+    number: num,
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString()
+  });
+
+  localStorage.setItem("callHistory", JSON.stringify(history));
+
+  renderHistory(); // 🔥 instant update
+
+  window.location.href = "tel:" + num;
+}
+const services = {
+
+  "national-emergency": {
+    name: "National Emergency",
+    number: "999",
+    img: "emergency.png",
+    desc: "National emergency service for police, fire, and ambulance. Available 24/7 across Bangladesh."
+  },
+
+  police: {
+    name: "Police",
+    img: "police.png",
+    desc: "Select your district to see local police stations.",
+    districts: {
+      dhaka: [
+        { name: "DMP Headquarters", number: "999" },
+        { name: "Mirpur Police Station", number: "01711111111" },
+        { name: "Gulshan Police Station", number: "01711222222" }
+      ],
+      chittagong: [
+        { name: "Kotwali Police Station", number: "01822222222" },
+        { name: "Pahartali Police Station", number: "01833333333" },
+        { name: "Double Mooring Police Station", number: "01844444444" }
+      ],
+      sylhet: [
+        { name: "Sylhet Sadar Police", number: "01944444444" },
+        { name: "Kotwali Police Station Sylhet", number: "01955555555" }
+      ],
+      rajshahi: [
+        { name: "Rajshahi Metropolitan Police", number: "01711333333" },
+        { name: "Boalia Police Station", number: "01722334455" }
+      ],
+      khulna: [
+        { name: "Khulna Metropolitan Police", number: "01811223344" },
+        { name: "Sonadanga Police Station", number: "01822334455" }
+      ],
+      barishal: [
+        { name: "Barishal Metropolitan Police", number: "01911223344" },
+        { name: "Kotwali Police Station Barishal", number: "01922334455" }
+      ]
+    }
+  },
+
+  fire: {
+    name: "Fire Service",
+    img: "fire-service.png",
+    desc: "Select your district to see local fire service stations.",
+    districts: {
+      dhaka: [
+        { name: "Dhaka Fire Service HQ", number: "02-9555555" },
+        { name: "Mirpur Fire Station", number: "02-8012345" },
+        { name: "Mohakhali Fire Station", number: "02-9886543" }
+      ],
+      chittagong: [
+        { name: "Chittagong Fire Service HQ", number: "031-615151" },
+        { name: "Agrabad Fire Station", number: "031-714141" },
+        { name: "Pahartali Fire Station", number: "031-754321" }
+      ],
+      sylhet: [
+        { name: "Sylhet Fire Service HQ", number: "0821-716161" },
+        { name: "Ambarkhana Fire Station", number: "0821-813131" }
+      ],
+      rajshahi: [
+        { name: "Rajshahi Fire Service HQ", number: "0721-772121" },
+        { name: "Uposhahar Fire Station", number: "0721-861234" }
+      ],
+      khulna: [
+        { name: "Khulna Fire Service HQ", number: "041-721212" },
+        { name: "Khalishpur Fire Station", number: "041-734321" }
+      ],
+      barishal: [
+        { name: "Barishal Fire Service HQ", number: "0431-62121" },
+        { name: "Natullabad Fire Station", number: "0431-73456" }
+      ]
+    }
+  },
+
+  ambulance: {
+    name: "Ambulance",
+    img: "ambulance.png",
+    desc: "Select your district to find nearby ambulance services.",
+    districts: {
+      dhaka: [
+        { name: "Dhaka Medical College Hospital", number: "01711-111222" },
+        { name: "SSMC & Mitford Hospital", number: "01711-333444" },
+        { name: "Bangladesh Red Crescent Ambulance", number: "01199-999911" }
+      ],
+      chittagong: [
+        { name: "Chittagong Medical College Hospital", number: "031-619999" },
+        { name: "General Hospital Chittagong", number: "031-615555" },
+        { name: "Red Crescent Ambulance Ctg", number: "01199-888811" }
+      ],
+      sylhet: [
+        { name: "Sylhet MAG Osmani Medical College", number: "0821-716666" },
+        { name: "Red Crescent Ambulance Sylhet", number: "01199-777711" }
+      ],
+      rajshahi: [
+        { name: "Rajshahi Medical College Hospital", number: "0721-775555" },
+        { name: "Red Crescent Ambulance Rajshahi", number: "01199-666611" }
+      ],
+      khulna: [
+        { name: "Khulna Medical College Hospital", number: "041-725555" },
+        { name: "Red Crescent Ambulance Khulna", number: "01199-555511" }
+      ],
+      barishal: [
+        { name: "Sher-E-Bangla Medical College Hospital", number: "0431-64444" },
+        { name: "Red Crescent Ambulance Barishal", number: "01199-444411" }
+      ]
+    }
+  },
+
+  women: {
+    name: "Women & Child Helpline",
+    img: "women.png",
+    desc: "Select your district to find Women & Child support centers.",
+    districts: {
+      dhaka: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Dhaka", number: "01711-999001" },
+        { name: "BRAC Women Support Dhaka", number: "01730-111222" }
+      ],
+      chittagong: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Ctg", number: "01822-999001" },
+        { name: "BRAC Women Support Ctg", number: "01830-111222" }
+      ],
+      sylhet: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Sylhet", number: "01944-999001" }
+      ],
+      rajshahi: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Rajshahi", number: "01711-888002" }
+      ],
+      khulna: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Khulna", number: "01811-888002" }
+      ],
+      barishal: [
+        { name: "National Helpline (MWCA)", number: "109" },
+        { name: "One-Stop Crisis Centre Barishal", number: "01911-888002" }
+      ]
+    }
+  },
+
+  anti: {
+    name: "Anti-Corruption",
+    img: "anti.png",
+    desc: "Select your district to find the Anti-Corruption Commission office.",
+    districts: {
+      dhaka: [
+        { name: "ACC Head Office Dhaka", number: "106" },
+        { name: "ACC Integrated District Office Dhaka", number: "02-9514444" }
+      ],
+      chittagong: [
+        { name: "ACC Integrated District Office Ctg", number: "031-611111" },
+        { name: "ACC Hotline", number: "106" }
+      ],
+      sylhet: [
+        { name: "ACC Integrated District Office Sylhet", number: "0821-711111" },
+        { name: "ACC Hotline", number: "106" }
+      ],
+      rajshahi: [
+        { name: "ACC Integrated District Office Rajshahi", number: "0721-771111" },
+        { name: "ACC Hotline", number: "106" }
+      ],
+      khulna: [
+        { name: "ACC Integrated District Office Khulna", number: "041-721111" },
+        { name: "ACC Hotline", number: "106" }
+      ],
+      barishal: [
+        { name: "ACC Integrated District Office Barishal", number: "0431-62111" },
+        { name: "ACC Hotline", number: "106" }
+      ]
+    }
+  },
+
+  electric: {
+    name: "Electricity Helpline",
+    img: "elac.png",
+    desc: "Select your district to find the electricity board helpline.",
+    districts: {
+      dhaka: [
+        { name: "DESCO Helpline", number: "16116" },
+        { name: "DPDC Helpline", number: "16116" },
+        { name: "BPDB Dhaka", number: "02-9551234" }
+      ],
+      chittagong: [
+        { name: "CPGCBL Helpline", number: "031-610001" },
+        { name: "BPDB Chittagong", number: "031-614321" }
+      ],
+      sylhet: [
+        { name: "BPDB Sylhet", number: "0821-710001" },
+        { name: "PALLI Bidyut Sylhet", number: "0821-723456" }
+      ],
+      rajshahi: [
+        { name: "BPDB Rajshahi", number: "0721-770001" },
+        { name: "PALLI Bidyut Rajshahi", number: "0721-812345" }
+      ],
+      khulna: [
+        { name: "BPDB Khulna", number: "041-720001" },
+        { name: "WZPDCL Helpline", number: "041-734444" }
+      ],
+      barishal: [
+        { name: "BPDB Barishal", number: "0431-61001" },
+        { name: "PALLI Bidyut Barishal", number: "0431-72345" }
+      ]
+    }
+  },
+
+  brac: {
+    name: "BRAC Helpline",
+    img: "brac.png",
+    desc: "Select your district to find BRAC offices near you.",
+    districts: {
+      dhaka: [
+        { name: "BRAC Head Office", number: "16445" },
+        { name: "BRAC Dhaka District Office", number: "02-9881265" },
+        { name: "BRAC Health Programme Dhaka", number: "01730-111333" }
+      ],
+      chittagong: [
+        { name: "BRAC Chittagong Regional Office", number: "031-616001" },
+        { name: "BRAC Health Programme Ctg", number: "01830-111333" }
+      ],
+      sylhet: [
+        { name: "BRAC Sylhet Regional Office", number: "0821-716001" },
+        { name: "BRAC Health Programme Sylhet", number: "01930-111333" }
+      ],
+      rajshahi: [
+        { name: "BRAC Rajshahi Regional Office", number: "0721-776001" },
+        { name: "BRAC Health Programme Rajshahi", number: "01730-222333" }
+      ],
+      khulna: [
+        { name: "BRAC Khulna Regional Office", number: "041-726001" },
+        { name: "BRAC Health Programme Khulna", number: "01830-222333" }
+      ],
+      barishal: [
+        { name: "BRAC Barishal Regional Office", number: "0431-63001" },
+        { name: "BRAC Health Programme Barishal", number: "01930-222333" }
+      ]
+    }
+  },
+
+  rail: {
+    name: "Bangladesh Railway",
+    img: "Bangladesh-Railway.png",
+    desc: "Select your district to find railway station helpline.",
+    districts: {
+      dhaka: [
+        { name: "Kamalapur Railway Station", number: "02-9331847" },
+        { name: "Airport Railway Station", number: "02-8924444" },
+        { name: "BR Helpline", number: "163" }
+      ],
+      chittagong: [
+        { name: "Chittagong Railway Station", number: "031-212121" },
+        { name: "Pahartali Railway Station", number: "031-234567" },
+        { name: "BR Helpline", number: "163" }
+      ],
+      sylhet: [
+        { name: "Sylhet Railway Station", number: "0821-712345" },
+        { name: "BR Helpline", number: "163" }
+      ],
+      rajshahi: [
+        { name: "Rajshahi Railway Station", number: "0721-776543" },
+        { name: "BR Helpline", number: "163" }
+      ],
+      khulna: [
+        { name: "Khulna Railway Station", number: "041-723456" },
+        { name: "BR Helpline", number: "163" }
+      ],
+      barishal: [
+        { name: "Barishal Launch/Bus Terminal Info", number: "0431-64321" },
+        { name: "BR Helpline", number: "163" }
+      ]
+    }
+  }
+
+};renderServiceHistory(serviceKey);
+
+// -----------------------------------------------
+// URL থেকে service key নেওয়া
+// -----------------------------------------------
+const params = new URLSearchParams(window.location.search);
+const serviceKey = params.get("service");
+
+const districtSelect = document.getElementById("districtSelect");
+const serviceContent = document.getElementById("service-content");
+
+if (serviceKey && services[serviceKey]) {
+
+  const s = services[serviceKey];
+
+  document.getElementById("title").innerText = s.name;
+  document.getElementById("service-img").src = s.img;
+
+  if (s.districts) {
+
+    districtSelect.classList.remove("hidden");
+    serviceContent.innerHTML = `<p class="text-gray-600">${s.desc}</p>`;
+
+    districtSelect.addEventListener("change", function () {
+      const selected = this.value;
+
+      if (!selected) {
+        serviceContent.innerHTML = `<p class="text-gray-600">${s.desc}</p>`;
+        return;
+      }
+
+      const stations = s.districts[selected];
+
+      if (!stations || stations.length === 0) {
+        serviceContent.innerHTML = `<p class="text-red-500 mt-3">এই জেলার তথ্য পাওয়া যায়নি।</p>`;
+        return;
+      }
+
+      const stationsHTML = stations.map(st => `
+        <div class="border border-gray-200 p-4 rounded-lg mt-3 fade-in flex justify-between items-center">
+          <div>
+            <p class="font-semibold text-gray-800">${st.name}</p>
+            <p class="text-green-600 font-bold text-lg">📞 ${st.number}</p>
+          </div>
+          <button onclick="callNow('${st.number}')"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
+            Call Now
+          </button>
+        </div>
+      `).join("");
+
+      serviceContent.innerHTML = `
+        <p class="text-gray-600 mb-2">${s.desc}</p>
+        ${stationsHTML}
+      `;
+    });
+
+  } else {
+
+    districtSelect.classList.add("hidden");
+
+    serviceContent.innerHTML = `
+      <div class="fade-in text-center">
+        <p class="text-3xl font-bold text-green-600 mt-2">📞 ${s.number}</p>
+        <p class="mt-3 text-gray-600">${s.desc}</p>
+        <button onclick="callNow('${s.number}')"
+          class="mt-5 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg text-lg transition">
+          📲 Call Now
+        </button>
+      </div>
+    `;
+  }
+
+} else {
+  document.getElementById("title").innerText = "Service not found 😢";
+  document.getElementById("detailsBox").innerHTML = `
+    <p class="text-gray-500 text-center mt-4">অনুগ্রহ করে সঠিক service বেছে নিন।</p>
+  `;
+}
+
+function callNow(num) {
+  window.location.href = "tel:" + num;
+}
+function renderServiceHistory(serviceKey) {
+    const history = JSON.parse(localStorage.getItem("callHistory")) || [];
+
+    const filtered = history.filter(item => item.service === serviceKey);
+
+    const container = document.getElementById("service-history");
+
+    if (!container) return;
+
+    if (filtered.length === 0) {
+        container.innerHTML = "<p class='text-gray-400'>No calls yet</p>";
+        return;
+    }
+
+    container.innerHTML = filtered.map(item => `
+        <div class="border p-2 rounded mt-2 text-left">
+            <p class="font-semibold">${item.name} - ${item.number}</p>
+            <p class="text-xs text-gray-500">${item.date} | ${item.time}</p>
+        </div>
+    `).join("");
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel</title>
+
+<style>
+body {
+    font-family: sans-serif;
+    text-align: center;
+    margin-top: 40px;
+}
+
+input {
+    margin: 5px;
+    padding: 10px;
+    width: 220px;
+}
+
+button {
+    padding: 8px 14px;
+    margin: 4px;
+    cursor: pointer;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+li {
+    background: #f0f0f0;
+    margin: 8px auto;
+    padding: 12px;
+    border-radius: 6px;
+    width: 320px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Admin Panel</h2>
+
+<input id="serviceName" placeholder="Service Name"><br>
+<input id="serviceNumber" placeholder="Number"><br>
+<input id="serviceCategory" placeholder="Category"><br>
+
+<button onclick="addService()">➕ Add Service</button>
+
+<h3>Service List</h3>
+<ul id="service-list"></ul>
+
+<script>
+
+// ✅ FIX: declare services
+let services = JSON.parse(localStorage.getItem("services")) || [];
+
+// ================= SAVE =================
+function saveServices() {
+    localStorage.setItem("services", JSON.stringify(services));
+}
+
+// ================= RENDER =================
+function renderServices() {
+    const list = document.getElementById("service-list");
+    list.innerHTML = "";
+
+    services.forEach((service, index) => {
+        const li = document.createElement("li");
+
+        li.innerHTML = `
+            <b>${service.name}</b><br>
+            📞 ${service.number}<br>
+            🏷️ ${service.category}<br><br>
+
+            <button onclick="editService(${index})">✏️ Edit</button>
+            <button onclick="deleteService(${index})">🗑 Delete</button>
+        `;
+
+        list.appendChild(li);
+    });
+}
+
+// ================= ADD =================
+function addService() {
+    const name = document.getElementById("serviceName").value.trim();
+    const number = document.getElementById("serviceNumber").value.trim();
+    const category = document.getElementById("serviceCategory").value.trim();
+
+    if(!name || !number || !category) {
+        alert("Fill all fields!");
+        return;
+    }
+
+    services.push({
+        id: Date.now(), // better than index
+        name,
+        number,
+        category
+    });
+
+    saveServices();
+    renderServices();
+
+    // clear input
+    document.getElementById("serviceName").value = "";
+    document.getElementById("serviceNumber").value = "";
+    document.getElementById("serviceCategory").value = "";
+
+    alert("✅ Service Added!");
+}
+
+// ================= DELETE =================
+function deleteService(index) {
+
+    const confirmDelete = confirm("Are you sure to delete?");
+
+    if(confirmDelete){
+        services.splice(index, 1);
+        saveServices();
+        renderServices();
+    }
+}
+
+// ================= EDIT =================
+function editService(index) {
+
+    const s = services[index];
+
+    const newName = prompt("Edit Name:", s.name);
+    const newNumber = prompt("Edit Number:", s.number);
+    const newCategory = prompt("Edit Category:", s.category);
+
+    if(newName && newNumber && newCategory){
+        services[index] = {
+            ...s,
+            name: newName,
+            number: newNumber,
+            category: newCategory
+        };
+
+        saveServices();
+        renderServices();
+
+        alert("✅ Updated!");
+    }
+}
+
+// ================= INIT =================
+renderServices();
+
+</script>
+
+</body>
+</html>
