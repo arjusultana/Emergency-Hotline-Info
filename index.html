@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -392,4 +393,401 @@ document.addEventListener("DOMContentLoaded", function() {
     </div>
   </footer>
 </body>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Hotline</title>
+  
+
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+
+<script>
+  tailwind.config = {
+    darkMode: 'class'
+  }
+</script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <script defer src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const role = localStorage.getItem("role");
+    if(localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+}
+    }
+);
+</script>
+
+</head>
+<body class="bg-green-50 dark:bg-gray-900 dark:text-white" style="font-family: 'Hind Madurai', sans-serif;">
+<!-- TOP BAR START -->
+<div class="flex justify-between items-center px-4 py-2 bg-gray-800 text-white text-sm">
+
+  <!-- Date -->
+  <div id="date-time"></div>
+
+ <button onclick="toggleDarkMode()"
+        class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded">
+  🌙
+</button>
+
+  <!-- Language -->
+  <select id="langToggle" class="bg-gray-700 px-2 py-1 rounded">
+    <option value="en">English</option>
+    <option value="bn">বাংলা</option>
+  </select>
+
+</div>
+<!-- TOP BAR END -->
+<nav class="bg-white dark:bg-gray-800 text-black dark:text-white p-4 shadow-lg flex flex-col md:flex-row md:justify-between md:items-center gap-3">
+<a id="admin-btn"
+   href="admin.html"
+   class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 hidden text-center">
+  Go to Admin
+</a>
+
+ <a href="#" onclick="logout()" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ">
+   Logout
+ </a>
+
+  <div class="flex items-center justify-center md:justify-start">
+    <img src="logo.png" alt="Ambulance" class="w-9 h-9 mb-2 mx-auto">
+    <h1 id="title" data-i18n="title" class="font-bold ml-2">Emergency <br> Service</h1>
+  </div>
+
+  <div class="flex items-center space-x-4">
+
+    <div class="flex items-center bg-pink-100 text-pink-600 px-2 py-1 rounded-lg space-x-1">
+  <img src="heart.png" alt="heart" class="w-5 h-5">
+  <span id="heart-count">0</span>
+</div>
+
+
+    <div class="flex items-center bg-yellow-100 text-yellow-700 px-2 py-1 rounded-lg space-x-1">
+      <img src="coin.png" alt="Coin" class="w-5 h-5">
+      <span id="coin-count">100</span>
+    </div>
+
+    <div class="flex items-center bg-blue-100 text-blue-600 px-2 py-1 rounded-lg space-x-1">
+      <i class="fas fa-copy"></i>
+      <span id="copy-count">0</span>
+    </div>
+  </div>
+</nav>
+<!-- SEARCH + FILTER BAR -->
+<div class="container mx-auto px-4 mt-4 flex flex-col md:flex-row gap-3">
+
+  <!-- 🔍 Search -->
+  <div class="flex items-center border rounded px-3 py-2 w-full md:w-1/2 bg-white dark:bg-gray-900 dark:text-white">
+    <i class="fas fa-search mr-2 text-gray-500"></i>
+    <input id="searchInput" type="text" placeholder="🔍Search service..."
+      class="w-full outline-none">
+  </div>
+
+   <!-- 🎯 Category Filter
+  <select id="categoryFilter" class="border px-3 py-2 rounded bg-white w-full md:w-1/4">
+    <option value="all">All Categories</option>
+    <option value="Police">Police</option>
+    <option value="Fire">Fire</option>
+    <option value="Health">Health</option>
+    <option value="Help">Help</option>
+    <option value="Govt.">Govt.</option>
+    <option value="Electricity">Electricity</option>
+    <option value="NGO">NGO</option>
+    <option value="Travel">Travel</option>
+  </select>  -->
+
+  <!-- ⭐ Favorite Filter -->
+  <button id="favoriteFilter"
+    class="bg-white-400 px-4 py-2 rounded w-full md:w-1/4">
+    ❤️ Favorites
+  </button>
+
+</div>
+
+  <!-- HERO SECTION -->
+  <section class="bg-gradient-to-r from-green-900 to-green-700 text-white  py-12 text-center">
+    <div class="container mx-auto">
+      <img src="logo-dark.png" alt="Ambulance" class="w-12 h-12 mb-2 mx-auto">
+      <h1 id="hero-title" data-i18n="title">Emergency Service Directory</h1>
+      <p id="hero-subtitle" data-i18n="subtitle">
+        Government Emergency Services at Your Fingertip – A Project by the Government of the People's Republic of Bangladesh
+      </p>
+    </div>
+  </section>
+
+  <!-- SERVICES GRID -->
+<section class="container mx-auto py-8 flex flex-col lg:flex-row gap-8">     <!-- LEFT SIDE: SERVICES -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4 ">
+     <!-- National Emergency -->
+ <div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('national-emergency')">
+        <img src="emergency.png" alt="National Emergency" class="h-10 w-10 mb-2">
+        <h3 id="national-title" data-i18n="nationalTitle" class="font-bold">National Emergency Number</h3>
+        <p id="national-subtitle" data-i18n="nationalSubtitle" class="text-sm text-gray-500">National Emergency</p>
+<p class="text-lg font-semibold mt-2" data-number="999">999</p>        <span id="national-category" data-i18n="nationalCategory" class="bg-blue-100 text-blue-600 px-2 py-1 rounded text-sm">All</span>
+        <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+        <div class="mt-4 flex space-x-2">
+          <button data-i18n="copy" class="bg-gray-200 text-gray-700 px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="copyNumber(event,'999', this)">
+            <i class="fas fa-copy mr-1"></i> Copy
+          </button>
+          <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="makeCall(event,'National Emergency', '999')">
+            <i class="fas fa-phone mr-1"></i> Call
+          </button>
+        </div>
+      </div>
+
+      <!-- Police -->
+      <div class="bg-white  dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('police')">
+        <img src="police.png" alt="Police" class="h-10 w-10 mb-2">
+        <h3 id="police-title" data-i18n="policeTitle" class="font-bold">Police Helpline Number</h3>
+        <p id="police-subtitle" data-i18n="policeSubtitle" class="text-sm text-gray-500">Police</p>
+<p class="text-lg font-semibold mt-2" data-number="999">999</p>        <span id="police-category" data-i18n="policeCategory" class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-sm">Police</span>
+     <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+        <div class="mt-4 flex space-x-2">
+          <button data-i18n="copy" class="bg-gray-200 text-gray-700 px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="copyNumber(event,'999', this)">
+            <i class="fas fa-copy mr-1"></i> Copy
+          </button>
+          <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="makeCall(event,'Police', '999')">
+            <i class="fas fa-phone mr-1"></i> Call
+          </button>
+        </div>
+      </div>
+
+      <!-- Fire Service -->
+      <div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('fire')">
+        <img src="fire-service.png" alt="Fire Service" class="h-10 w-10 mb-2">
+        <h3 id="fire-title" data-i18n="fireTitle" class="font-bold">Fire Service Number</h3>
+        <p id="fire-subtitle" data-i18n="fireSubtitle" class="text-sm text-gray-500">Fire Service</p>
+        <p data-number="999" class="text-lg font-semibold mt-2">999</p>
+        <span id="fire-category" data-i18n="fireCategory" class="bg-red-100 text-red-800 px-2 py-1 rounded text-sm">Fires</span>
+        <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+        <div class="mt-4 flex space-x-2">
+          <button data-i18n="copy" class="bg-gray-200 text-gray-700 px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="copyNumber(event,'999', this)">
+            <i class="fas fa-copy mr-1"></i> Copy
+          </button>
+          
+          <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1 flex items-center justify-center"
+                  onclick="makeCall(event,'Fire Service', '999')">
+            <i class="fas fa-phone mr-1"></i> Call
+          </button>
+        </div>
+      </div>
+
+      
+    <div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('ambulance')">
+  <img src="ambulance.png" alt="Ambulance" class="h-10 w-10 mb-2">
+  <h3 class="font-bold" data-i18n="ambulanceTitle">Ambulance Service</h3>
+  <p class="text-sm text-gray-500" data-i18n="ambulance">Ambulance</p>
+<p class="text-lg font-semibold mt-2" data-number="999">999</p>  <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-sm" data-i18n="health">Health</span>
+
+ <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'1994-999999')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event, 'Ambulance', '1994-999999')">Call</button>
+  </div>
+</div>
+
+
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('women')">
+  <i class="fas fa-child text-pink-500 text-3xl mb-2"></i>
+  <h3 class="font-bold" data-i18n="womenTitle">Women & Child Helpline</h3>
+  <p class="text-sm text-gray-500" data-i18n="women">Women & Child Helpline</p>
+<p class="text-lg font-semibold mt-2" data-number="109">109</p>  <span class="bg-pink-200 text-pink-800 px-2 py-1 rounded text-sm" data-i18n="help">Help</span>
+
+  <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'109')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Women & Child Helpline', '109')">Call</button>
+  </div>
+</div>
+
+
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('anti')">
+  <i class="fas fa-gavel text-gray-600 text-3xl mb-2"></i>
+  <h3 class="font-bold" data-i18n="antiTitle">Anti-Corruption Helpline</h3>
+  <p class="text-sm text-gray-500" data-i18n="anti">Anti-Corruption</p>
+<p class="text-lg font-semibold mt-2" data-number="109">109</p>  <span class="bg-purple-200 text-green-800 px-2 py-1 rounded text-sm" data-i18n="govt">Govt.</span>
+
+<button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'106')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Anti-Corruption', '106')">Call</button>
+  </div>
+</div>
+
+
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('electric')">
+  <img src="elac.png" alt="Electricity" class="h-8 w-6 mb-2">
+  <h3 class="font-bold" data-i18n="electricTitle">Electricity Helpline</h3>
+  <p class="text-sm text-gray-500" data-i18n="electric">Electricity outage</p>
+<p class="text-lg font-semibold mt-2" data-number="106">106</p>  <span class="bg-yellow-100 text-gray-800 px-2 py-1 rounded text-sm" data-i18n="electricity">Electricity</span>
+
+ <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'16216')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Electricity', '16216')">Call</button>
+  </div>
+</div>
+
+
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     onclick="openDetails('brac')">
+  <img src="brac.png" alt="Brac" class="h-10 w-10 mb-2">
+  <h3 class="font-bold" data-i18n="bracTitle">Brac Helpline</h3>
+  <p class="text-sm text-gray-500" data-i18n="brac">Brac</p>
+<p class="text-lg font-semibold mt-2" data-number="16216">16216</p>  <span class="bg-blue-100 text-gray-800 px-2 py-1 rounded text-sm" data-i18n="ngo">NGO</span>
+
+<button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'16445')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Brac', '16445')">Call</button>
+  </div>
+</div>
+
+
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+    onclick="openDetails('rail')">
+  <img src="Bangladesh-Railway.png" alt="Railway" class="h-10 w-10 mb-2">
+  <h3 class="font-bold" data-i18n="railTitle">Bangladesh Railway Helpline</h3>
+  <p class="text-sm text-gray-500" data-i18n="rail">Bangladesh Railway</p>
+<p class="text-lg font-semibold mt-2" data-number="163">163</p>  <span class="bg-orange-100 text-gray-800 px-2 py-1 rounded text-sm" data-i18n="travel">Travel</span>
+
+<button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+  ♡
+</button>
+
+  <div class="mt-4 flex space-x-2">
+    <button data-i18n="copy" class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'163')">Copy</button>
+
+    <button data-i18n="call" class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Bangladesh Railway', '163')">Call</button>
+  </div>
+</div> <!-- existing grid শেষ -->
+
+  <!-- <div class="w-full  bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-6"> -->
+<div class="w-full lg:w-1/3 bg-white dark:bg-gray-800 p-4 rounded shadow">        
+  <h3 class="text-xl font-bold flex items-center">Call History</h3>
+          <i class="fas fa-history text-blue-500 mr-2"></i>
+          <span data-i18n="callHistory">Call History</span>
+        </h3>
+        <button class="bg-green-500 text-white px-4 py-2 rounded flex-1" onclick="clearHistory()">
+          <i class="fas fa-trash mr-1"></i> <span data-i18n="clear">Clear</span>
+        </button>
+      </div>
+      <ul id="history-list" class="space-y-2"></ul>
+    </div>
+  </section>
+
+  <!-- Added Services -->
+  <div id="custom-services" 
+     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-4">
+</div>
+    
+
+  <!-- Footer -->
+  <footer class=" bg-gray-50  dark:bg-gray-800 text-black dark:text-white py-12 px-6">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+      
+    <div>
+        <div class="flex items-center gap-2 mb-4">
+          <img src="logo.png" alt="Logo" class="h-20 w-24">
+        </div>
+         <p class="text-gray-500 max-w-xs font-sans">
+          Indulge your senses with the beauty and fragrance of our fresh flower shop.
+        </p>
+      </div>
+
+
+<div class="flex flex-col md:flex-row gap-2 md:gap-6 text-gray-500 dark:bg-gray-800 text-black dark:text-white text-sm font-sans">
+ 
+  <div class="flex flex-col gap-2 text-gray-500 text-sm font-sans">
+    <a href="#" class="hover:underline">Home</a>
+    <a href="#" class="hover:underline">About Us</a>
+    <a href="#" class="hover:underline">Blog</a>
+    <a href="#" class="hover:underline">FAQ</a>
+    <a href="#" class="hover:underline">Contact Us</a>
+  </div>
+
+   <div class="flex flex-col gap-2 text-gray-500 text-sm dark:bg-gray-800 text-black dark:text-white font-sans">
+    <a href="#" class="hover:underline">Features</a>
+    <a href="#" class="hover:underline">Privacy Policy</a>
+    <a href="#" class="hover:underline">Terms of Service</a>
+    <a href="#" class="hover:underline">Help Center</a>
+  </div>
+
+</div>
+
+ <div class="flex gap-4 items-center">
+        <img src="icon-facebook.png" alt="Facebook" class="h-6 w-6 hover:scale-110 transition">
+        <img src="icon-twitter.png" alt="Twitter" class="h-6 w-6 hover:scale-110 transition">
+        <img src="icon-linkedin.png" alt="LinkedIn" class="h-6 w-6 hover:scale-110 transition">
+        <img src="icon-youtube.png" alt="YouTube" class="h-6 w-6 hover:scale-110 transition">
+      </div>
+    </div>
+  </footer>
+</body>
+>>>>>>> 7546803517808a6f2a6f081d6188b562ef744df2
 </html>
