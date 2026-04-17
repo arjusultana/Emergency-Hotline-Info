@@ -135,7 +135,7 @@ renderHistory();
         consumerTitle: "ভোক্তা অধিকার কার্যালয়",
         consumerSubtitle: "ভোক্তা অধিকার হেল্পলাইন",
         consumerCategory: "সরকারি",    
-        
+
             fireTitle: "ফায়ার সার্ভিস নম্বর",
             fireSubtitle: "ফায়ার সার্ভিস",
             fireCategory: "আগুন",
@@ -165,6 +165,13 @@ renderHistory();
             travel: "পরিবহন"
         }
     };
+
+window.logout = function () {
+    localStorage.clear(); // সব clean করে দেবে
+    window.location.replace("login.html"); // safe redirect
+};
+
+
 window.openDetails = function(service){
     window.location.href = "details.html?service=" + service;
 }

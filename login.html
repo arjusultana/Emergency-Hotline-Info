@@ -1,35 +1,124 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login</title>
-<script>
-function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
 
-    if(username === "admin" && password === "admin123") {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("role", "admin");
-        alert("Welcome Admin!")
-            window.location.href = "index.html";}
-    else if(username === "user" && password === "user123") {
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("role", "user");
-         alert("Welcome User!")
-        window.location.href = "index.html";
-    } else {
-        alert("Invalid credentials!");
-    }
-}
-</script>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
 </head>
-<body style="font-family:sans-serif; text-align:center; padding:50px;">
-<h2>Login</h2>
-<input type="text" id="username" placeholder="Username"><br><br>
-<input type="password" id="password" placeholder="Password"><br><br>
-<button onclick="login()">Login</button>
+
+<body class="bg-gradient-to-r from-green-900 to-green-700 min-h-screen flex items-center justify-center">
+
+  <div class="bg-white w-full max-w-md rounded-2xl shadow-2xl p-8 fade-in">
+
+    <!-- Logo -->
+    <div class="text-center mb-6">
+      <img src="logo.png" class="w-16 mx-auto mb-2" />
+      <h1 class="text-2xl font-bold text-gray-700">Emergency Service</h1>
+      <p class="text-sm text-gray-500">Secure Login Portal</p>
+    </div>
+
+    <!-- Error Box -->
+    <div id="errorBox" class="hidden bg-red-100 text-red-600 p-2 rounded mb-3 text-sm"></div>
+
+    <!-- Username -->
+    <input id="username" type="text" placeholder="Username"
+      class="w-full border p-3 rounded-lg mb-3 focus:outline-none focus:ring-2 focus:ring-green-500">
+
+    <!-- Password -->
+    <div class="relative mb-3">
+      <input id="password" type="password" placeholder="Password"
+        class="w-full border p-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+
+      <button type="button" onclick="togglePassword()"
+        class="absolute right-3 top-3 text-sm text-gray-600">
+        👁
+      </button>
+    </div>
+
+    <!-- Remember -->
+    <div class="flex items-center mb-4">
+      <input type="checkbox" id="remember" class="mr-2">
+      <label class="text-sm text-gray-600">Remember me</label>
+    </div>
+
+    <!-- Button -->
+    <button onclick="login()"
+      class="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition">
+      Login
+    </button>
+
+    <p class="text-xs text-gray-400 text-center mt-4">
+      Government Emergency Service System
+    </p>
+
+  </div>
+
+<script>
+
+// LOGIN
+function login() {
+  const user = document.getElementById("username").value.trim();
+  const pass = document.getElementById("password").value.trim();
+  const remember = document.getElementById("remember").checked;
+  const errorBox = document.getElementById("errorBox");
+
+  if(!user || !pass){
+    errorBox.classList.remove("hidden");
+    errorBox.innerText = "⚠ Please fill all fields";
+    return;
+  }
+
+  if(pass.length < 4){
+    errorBox.classList.remove("hidden");
+    errorBox.innerText = "⚠ Password too short";
+    return;
+  }
+
+  errorBox.classList.add("hidden");
+
+  localStorage.setItem("isLoggedIn", "true");
+
+  if(remember){
+    localStorage.setItem("rememberUser", user);
+  }
+
+  window.location.href = "index.html";
+}
+
+// SHOW / HIDE PASSWORD
+function togglePassword() {
+  const pass = document.getElementById("password");
+  pass.type = pass.type === "password" ? "text" : "password";
+}
+
+// AUTO FILL
+window.onload = function () {
+  const savedUser = localStorage.getItem("rememberUser");
+  if(savedUser){
+    document.getElementById("username").value = savedUser;
+    document.getElementById("remember").checked = true;
+  }
+};
+
+</script>
+
 </body>
 </html>
