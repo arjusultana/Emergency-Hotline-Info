@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 body{font-family:Arial;font-size: 18px; padding:20px;background:#f4f6f9}
 .card{background:white;padding:15px;margin:10px 0;border-radius:8px}
 button{margin:5px;padding:5px 10px}
@@ -15,21 +15,3 @@ p {
 button {
     font-size: 1ppx; /* button text */
 }
-=======
-body{font-family:Arial;font-size: 18px; padding:20px;background:#f4f6f9}
-.card{background:white;padding:15px;margin:10px 0;border-radius:8px}
-button{margin:5px;padding:5px 10px}
-.center{display:flex;justify-content:center;align-items:center;height:100vh}
-.login-box{background:white;padding:20px;border-radius:10px}
-h1, h2, h3 {
-    font-size: 16px; /* heading কমানো */
-}
-
-p {
-    font-size: 14px; /* paragraph */
-}
-
-button {
-    font-size: 1ppx; /* button text */
-}
->>>>>>> 7546803517808a6f2a6f081d6188b562ef744df2
