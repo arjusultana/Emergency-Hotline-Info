@@ -77,6 +77,9 @@ renderHistory();
             nationalTitle: "National Emergency Number",
             nationalSubtitle: "National Emergency",
             nationalCategory: "All",
+            consumerTitle: "Consumer Rights Office",
+            consumerSubtitle: "Consumer Rights Helpline",
+            consumerCategory: "Govt.",
 
             policeTitle: "Police Helpline Number",
             policeSubtitle: "Police",
@@ -129,6 +132,10 @@ renderHistory();
             policeSubtitle: "পুলিশ",
             policeCategory: "পুলিশ",
 
+        consumerTitle: "ভোক্তা অধিকার কার্যালয়",
+        consumerSubtitle: "ভোক্তা অধিকার হেল্পলাইন",
+        consumerCategory: "সরকারি",    
+        
             fireTitle: "ফায়ার সার্ভিস নম্বর",
             fireSubtitle: "ফায়ার সার্ভিস",
             fireCategory: "আগুন",

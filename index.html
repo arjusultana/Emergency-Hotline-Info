@@ -222,6 +222,47 @@ document.addEventListener("DOMContentLoaded", function() {
   </div>
 </div>
 
+<div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
+     >
+
+  <img src="consumer.png" alt="Consumer Rights" class="h-10 w-10 mb-2">
+
+  <h3 onclick="openDetails('consumer')" class="font-bold cursor-pointer hover:text-green-600 transition" class="font-bold" data-i18n="consumerTitle">
+     Consumer Rights Helpline
+  </h3>
+
+  <p class="text-sm text-gray-500">
+    Consumer Rights Helpline
+  </p>
+
+  <p class="text-lg font-semibold mt-2" data-number="16121">
+    16121
+  </p>
+
+  <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-sm">
+    Govt.
+  </span>
+
+  <button onclick="toggleFavorite(event, this)" 
+        class="absolute top-2 right-2 text-2xl">
+    ♡
+  </button>
+
+  <div class="mt-4 flex space-x-2">
+    
+    <button class="bg-gray-200 px-4 py-2 rounded flex-1"
+      onclick="copyNumber(event,'16121')">
+      Copy
+    </button>
+
+    <button class="bg-green-500 text-white px-4 py-2 rounded flex-1"
+      onclick="makeCall(event,'Consumer Rights','16121')">
+      Call
+    </button>
+
+  </div>
+</div>
+
 
 <div class="bg-white dark:bg-gray-800 text-black dark:text-white rounded-lg shadow-md p-4 relative service-card cursor-pointer"
      >
