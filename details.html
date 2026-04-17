@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <!DOCTYPE html>
 <html lang="bn">
 <head>
@@ -74,12 +74,13 @@ function callNow(num){
   let history = JSON.parse(localStorage.getItem("callHistory")) || [];
 
   history.push({
-    id: Date.now(),
-    name: document.getElementById("title").innerText,
-    number: num,
-    date: new Date().toLocaleDateString(),
-    time: new Date().toLocaleTimeString()
-  });
+  id: Date.now(),
+  name: document.getElementById("title").innerText,
+  number: num,
+  service: serviceKey, // 🔥 MUST ADD
+  date: new Date().toLocaleDateString(),
+  time: new Date().toLocaleTimeString()
+});
 
   localStorage.setItem("callHistory", JSON.stringify(history));
 
@@ -364,14 +365,14 @@ const services = {
     }
   }
 
-};renderServiceHistory(serviceKey);
+};
 
 // -----------------------------------------------
 // URL থেকে service key নেওয়া
 // -----------------------------------------------
 const params = new URLSearchParams(window.location.search);
 const serviceKey = params.get("service");
-
+renderServiceHistory(serviceKey);
 const districtSelect = document.getElementById("districtSelect");
 const serviceContent = document.getElementById("service-content");
 
@@ -472,128 +473,5 @@ function renderServiceHistory(serviceKey) {
 </script>
 
 </body>
-=======
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Service Details</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
 
-<body class="bg-gray-100 p-6">
-
-<a href="index.html" class="text-blue-500">⬅ Back</a>
-
-<h1 id="title" class="text-2xl font-bold mb-4 mt-4"></h1>
-
-<div id="detailsBox" class="bg-white p-5 rounded shadow text-center">
-    <img id="service-img" class="w-full h-48 object-cover rounded mb-4">
-    <div id="service-content"></div>
-</div>
-
-<script>
-
-// 🔥 SAME KEY AS INDEX
-const services = {
-
-  "national-emergency": {
-    name: "National Emergency",
-    number: "999",
-    img: "emergency.png",
-    desc: "National emergency service for police, fire, and ambulance. Available 24/7 across Bangladesh."
-  },
-
-  police: {
-    name: "Police",
-    number: "999",
-    img: "police.png",
-    desc: "Police provide law enforcement and public safety services."
-  },
-
-  fire: {
-    name: "Fire Service",
-    number: "999",
-    img: "fire-service.png",
-    desc: "Fire service handles fire emergencies and rescue operations."
-  },
-
-  ambulance: {
-    name: "Ambulance",
-    number: "1994-999999",
-    img: "ambulance.png",
-    desc: "Ambulance services provide emergency medical transport."
-  },
-
-  women: {
-    name: "Women & Child Helpline",
-    number: "109",
-    img: "women.png",
-    desc: "Support for women and children facing violence or emergency."
-  },
-
-  anti: {
-    name: "Anti-Corruption",
-    number: "106",
-    img: "anti.png",
-    desc: "Report corruption and illegal activities."
-  },
-
-  electric: {
-    name: "Electricity Helpline",
-    number: "16216",
-    img: "elac.png",
-    desc: "Report electricity problems and outages."
-  },
-
-  brac: {
-    name: "BRAC Helpline",
-    number: "16445",
-    img: "brac.png",
-    desc: "NGO support including health, education, and emergency help."
-  },
-
-  rail: {
-    name: "Bangladesh Railway",
-    number: "163",
-    img: "Bangladesh-Railway.png",
-    desc: "Train info and railway support services."
-  }
-
-};
-
-// 👉 URL থেকে service key নেওয়া
-const params = new URLSearchParams(window.location.search);
-const serviceKey = params.get("service");
-
-// 👉 show data
-if(serviceKey && services[serviceKey]){
-
-  const s = services[serviceKey];
-
-  document.getElementById("title").innerText = s.name;
-  document.getElementById("service-img").src = s.img;
-
-  document.getElementById("service-content").innerHTML = `
-    <p class="text-lg font-semibold">📞 ${s.number}</p>
-    <p class="mt-3 text-gray-600">${s.desc}</p>
-
-    <button onclick="callNow('${s.number}')"
-      class="mt-4 bg-green-500 text-white px-4 py-2 rounded">
-      Call Now
-    </button>
-  `;
-
-} else {
-  document.getElementById("title").innerText = "Service not found 😢";
-}
-
-// 📞 CALL
-function callNow(num){
-  window.location.href = "tel:" + num;
-}
-
-</script>
-
-</body>
->>>>>>> 7546803517808a6f2a6f081d6188b562ef744df2
 </html>
